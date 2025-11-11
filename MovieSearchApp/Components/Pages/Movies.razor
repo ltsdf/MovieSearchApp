@@ -1,0 +1,58 @@
+@page "/"
+@page "/movies"
+@using MovieSearchApp.App.Models
+@using MovieSearchApp.App.Services
+@using MovieSearchApp.App.Services.SearchHistory
+
+<PageTitle>Movies</PageTitle>
+
+<div class="container py-4">
+    <h2 class="mb-3">Movie Search</h2>
+
+    <form class="mb-3" @onsubmit="OnSubmit" @onsubmit:preventDefault>
+        <div class="input-group">
+            <input class="form-control" @bind="State.Query" @bind:event="oninput" placeholder="Search by title..." list="recentQueries" />
+            <button type="submit" class="btn btn-primary" disabled="@State.IsLoading">
+                @(State.IsLoading ? "Searching..." : "Search")
+            </button>
+        </div>
+        <datalist id="recentQueries">
+            @if (State.Recent is not null)
+            {
+                @foreach (var q in State.Recent)
+                {
+                    <option value="@q">@q</option>
+                }
+            }
+        </datalist>
+    </form>
+
+    @if (State.TotalResults >0)
+    {
+        <div class="d-flex align-items-center mb-2 small text-secondary">
+            <div>Showing page @State.Page of @State.TotalPages (@State.TotalResults results)</div>
+            <div class="ms-auto">
+                <Paging CurrentPage="State.Page" TotalPages="State.TotalPages" OnChange="OnPageChanged" />
+            </div>
+        </div>
+    }
+
+    <SearchHistory Items="@State.Recent" OnSelect="OnHistorySelected" OnClear="OnHistoryCleared" />
+
+    <MovieResultList Items="@State.Results"
+                     OnSelect="OnMovieSelected"
+                     SelectedDetails="State.SelectedDetails"
+                     LoadingImdbId="@_loadingImdbId"
+                     OnClose="OnCloseDetails" />
+
+    @if (State.TotalResults >0)
+    {
+        <div class="d-flex align-items-center mt-2 small text-secondary">
+            <div class="ms-auto">
+                <Paging CurrentPage="State.Page" TotalPages="State.TotalPages" OnChange="OnPageChanged" />
+            </div>
+        </div>
+    }
+
+    @* Inline details under item now handled by MovieResultList *@
+</div>

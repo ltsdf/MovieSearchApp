@@ -1,0 +1,6 @@
+<Project>
+ <PropertyGroup>
+ <!-- Ensure NuGet generates lock files so CI cache can use them -->
+ <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+ </PropertyGroup>
+</Project>

@@ -1,0 +1,22 @@
+@if (Items?.Count > 0)
+{
+    <div class="mb-3">
+        <div class="d-flex align-items-center justify-content-between">
+            <h5 class="mb-0">Recent searches</h5>
+            <button class="btn btn-sm btn-outline-secondary" @onclick="() => OnClear.InvokeAsync()">Clear</button>
+        </div>
+        <div class="mt-2">
+            @foreach (var q in Items!)
+            {
+                <button class="btn btn-sm btn-outline-primary me-2 mb-2" @onclick="() => OnSelect.InvokeAsync(q)">@q</button>
+            }
+        </div>
+    </div>
+}
+
+@code
+{
+    [Parameter] public IReadOnlyList<string>? Items { get; set; }
+    [Parameter] public EventCallback<string> OnSelect { get; set; }
+    [Parameter] public EventCallback OnClear { get; set; }
+}

@@ -1,0 +1,60 @@
+@using MovieSearchApp.App.Models
+@if (Items?.Count > 0)
+{
+    <div class="list-group" role="list">
+        @foreach (var m in Items!)
+        {
+            var isSelected = SelectedDetails?.ImdbId == m.ImdbId;
+            var isLoading = LoadingImdbId == m.ImdbId;
+            var panelId = $"details-{m.ImdbId}";
+            var headerId = $"movie-{m.ImdbId}";
+            <div class="list-group-item p-0" role="listitem">
+                <button class="w-100 btn text-start d-flex px-3 py-2 border-0 bg-transparent"
+                        @onclick="() => OnSelect.InvokeAsync(m)"
+                        aria-expanded="@isSelected"
+                        aria-controls="@panelId">
+                    <img src="@m.PosterUrl" alt="@($"Poster for {m.Title}")"
+                         width="60" height="90" class="me-3 object-fit-cover" />
+                    <div class="text-start">
+                        <div class="fw-semibold d-flex align-items-center flex-wrap gap-2" id="@headerId">
+                            <span>@m.Title</span>
+                            <ImdbRatingBadge ImdbId="@m.ImdbId" />
+                        </div>
+                        <div class="text-muted">@m.Year</div>
+                    </div>
+                    <div class="ms-auto small text-secondary align-self-center" aria-hidden="true">@m.ImdbId</div>
+                </button>
+
+                <div id="@panelId" class="details-panel @(isSelected ? "show" : string.Empty)"
+                     role="region" aria-labelledby="@headerId" aria-hidden="@(!isSelected)">
+                    @if (isSelected)
+                    {
+                        if (isLoading)
+                        {
+                            <div class="py-3 text-center">
+                                <img src="/images/loading.gif" alt="Loading..." width="32" height="32" />
+                            </div>
+                        }
+                        else if (SelectedDetails is not null)
+                        {
+                            <MovieDetails Details="SelectedDetails" OnClose="OnClose" />
+                        }
+                    }
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <p class="text-muted" role="status" aria-live="polite">No results yet. Try searching for a title.</p>
+}
+
+@code
+{
+    [Parameter] public IReadOnlyList<MovieSearchItem>? Items { get; set; }
+    [Parameter] public EventCallback<MovieSearchItem> OnSelect { get; set; }
+    [Parameter] public MovieDetailsDto? SelectedDetails { get; set; }
+    [Parameter] public string? LoadingImdbId { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+}

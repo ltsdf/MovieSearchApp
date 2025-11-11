@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36623.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieSearchApp", "MovieSearchApp\MovieSearchApp.csproj", "{777491F8-A82C-455F-AE98-CA4800215413}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OmdbApp.Tests", "tests\OmdbApp.Tests\OmdbApp.Tests.csproj", "{C5EBAF24-C3E4-97C1-71D1-1EC68BDC2906}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHelpers", "tests\TestHelpers\TestHelpers.csproj", "{F0F8BC79-7452-B50B-4C9D-E55ACBBECBF7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TESTS", "TESTS", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{8A671EAA-30B4-48D3-A2EF-7EB01A3883E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Media", "Media", "{5D093C07-402B-414D-A437-52D718D93D2E}"
+	ProjectSection(SolutionItems) = preProject
+		H:\DOWNLOADS\demo.gif = H:\DOWNLOADS\demo.gif
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{777491F8-A82C-455F-AE98-CA4800215413}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{777491F8-A82C-455F-AE98-CA4800215413}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{777491F8-A82C-455F-AE98-CA4800215413}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{777491F8-A82C-455F-AE98-CA4800215413}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5EBAF24-C3E4-97C1-71D1-1EC68BDC2906}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5EBAF24-C3E4-97C1-71D1-1EC68BDC2906}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5EBAF24-C3E4-97C1-71D1-1EC68BDC2906}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5EBAF24-C3E4-97C1-71D1-1EC68BDC2906}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0F8BC79-7452-B50B-4C9D-E55ACBBECBF7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0F8BC79-7452-B50B-4C9D-E55ACBBECBF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0F8BC79-7452-B50B-4C9D-E55ACBBECBF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0F8BC79-7452-B50B-4C9D-E55ACBBECBF7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C5EBAF24-C3E4-97C1-71D1-1EC68BDC2906} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F0F8BC79-7452-B50B-4C9D-E55ACBBECBF7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{5D093C07-402B-414D-A437-52D718D93D2E} = {8A671EAA-30B4-48D3-A2EF-7EB01A3883E0}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {00DB64F8-6254-49D9-ADA3-8C99C00E97B8}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,92 @@
+@if (TotalPages > 1)
+{
+    <nav aria-label="Search results pages">
+        <ul class="pagination pagination-sm mb-0" role="navigation" aria-live="polite">
+            <!-- Previous -->
+            <li class="page-item @(CurrentPage == 1 ? "disabled" : string.Empty)">
+                <button type="button" class="page-link" @onclick="() => Change(CurrentPage - 1)" aria-label="Go to previous page" aria-disabled="@(CurrentPage==1)">&laquo;</button>
+            </li>
+
+            @* Always show first page *@
+            <li class="page-item @(CurrentPage == 1 ? "active" : string.Empty)">
+                <button type="button" class="page-link" @onclick="() => Change(1)" aria-current="@(CurrentPage==1?"page":null)" aria-label="Go to page 1">1</button>
+            </li>
+
+            @* Left ellipsis if window starts beyond page 2 *@
+            @if (ShowLeftEllipsis)
+            {
+                <li class="page-item disabled" aria-hidden="true"><span class="page-link">&hellip;</span></li>
+            }
+
+            @* Middle window (excludes first & last) *@
+            @foreach (var p in WindowPages)
+            {
+                var pageNumber = p; // capture
+                <li class="page-item @(pageNumber == CurrentPage ? "active" : string.Empty)">
+                    <button type="button" class="page-link" @onclick="() => Change(pageNumber)" aria-current="@(pageNumber==CurrentPage?"page":null)" aria-label="Go to page @pageNumber">@pageNumber</button>
+                </li>
+            }
+
+            @* Right ellipsis if window ends before last-1 *@
+            @if (ShowRightEllipsis)
+            {
+                <li class="page-item disabled" aria-hidden="true"><span class="page-link">&hellip;</span></li>
+            }
+
+            @* Always show last page when more than one *@
+            @if (TotalPages > 1)
+            {
+                <li class="page-item @(CurrentPage == TotalPages ? "active" : string.Empty)">
+                    <button type="button" class="page-link" @onclick="() => Change(TotalPages)" aria-current="@(CurrentPage==TotalPages?"page":null)" aria-label="Go to page @TotalPages">@TotalPages</button>
+                </li>
+            }
+
+            <!-- Next -->
+            <li class="page-item @(CurrentPage == TotalPages ? "disabled" : string.Empty)">
+                <button type="button" class="page-link" @onclick="() => Change(CurrentPage + 1)" aria-label="Go to next page" aria-disabled="@(CurrentPage==TotalPages)">&raquo;</button>
+            </li>
+        </ul>
+    </nav>
+}
+
+@code {
+    [Parameter] public int CurrentPage { get; set; }
+    [Parameter] public int TotalPages { get; set; }
+    [Parameter] public EventCallback<int> OnChange { get; set; }
+    [Parameter] public int MaxVisible { get; set; } = 7; // window size excluding first & last
+
+    // Compute middle window excluding first & last to keep controls compact.
+    private IEnumerable<int> WindowPages
+    {
+        get
+        {
+            if (TotalPages <= 10) // small range: show all pages directly
+            {
+                for (int i = 2; i <= TotalPages - 1; i++) yield return i;
+                yield break;
+            }
+
+            int half = MaxVisible / 2;
+            int start = Math.Max(2, CurrentPage - half);
+            int end = Math.Min(TotalPages - 1, start + MaxVisible - 1);
+            // Shift window left if we hit upper bound and still have room
+            int windowSize = end - start + 1;
+            if (windowSize < MaxVisible && start > 2)
+            {
+                int shift = Math.Min(MaxVisible - windowSize, start - 2);
+                start -= shift;
+            }
+
+            for (int i = start; i <= end; i++) yield return i;
+        }
+    }
+
+    private bool ShowLeftEllipsis => TotalPages > 10 && WindowPages.Any() && WindowPages.Min() > 2;
+    private bool ShowRightEllipsis => TotalPages > 10 && WindowPages.Any() && WindowPages.Max() < TotalPages - 1;
+
+    private async Task Change(int page)
+    {
+        if (page < 1 || page > TotalPages || page == CurrentPage) return;
+        await OnChange.InvokeAsync(page);
+    }
+}

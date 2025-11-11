@@ -1,0 +1,32 @@
+@using MovieSearchApp.App.Models
+@if (Details is null)
+{
+    <p class="text-muted">No details.</p>
+}
+else
+{
+    <div class="movie-details-root">
+        <div class="row g-3">
+            <div class="col-auto">
+                <img src="@Details.PosterUrl" alt="poster" width="160" class="rounded" />
+            </div>
+            <div class="col">
+                <h4 class="mb-1 d-flex align-items-center gap-2">
+                    <span>@Details.Title (@Details.Year)</span>
+                    <ImdbRatingBadge Rating="@Details.ImdbRating" Votes="@Details.ImdbVotes" />
+                    <button type="button" class="btn-close ms-auto" aria-label="Close details" @onclick="OnClose"></button>
+                </h4>
+                <div class="text-muted mb-2">
+                    Rated @Details.Rated &middot; @Details.Runtime &middot; Released @Details.Released
+                </div>
+                <p>@Details.Plot</p>
+            </div>
+        </div>
+    </div>
+}
+
+@code
+{
+    [Parameter] public MovieDetailsDto? Details { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+}
